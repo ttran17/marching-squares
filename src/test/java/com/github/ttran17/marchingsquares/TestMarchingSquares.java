@@ -95,6 +95,7 @@ public class TestMarchingSquares
     @Test
     public void testAsymptoticDecider5( )
     {
+        // wikipedia case 5 (remember that our mental model has array with row 0 at the bottom)
         double[][] testData = new double[][] {
                 { 1, 0 },
                 { 0, 1 },
@@ -160,6 +161,7 @@ public class TestMarchingSquares
     @Test
     public void testAsymptoticDecider10( )
     {
+        // wikipedia case 10 (remember that our mental model has array with row 0 at the bottom)
         double[][] testData = new double[][] {
                 { 0, 1 },
                 { 1, 0 },

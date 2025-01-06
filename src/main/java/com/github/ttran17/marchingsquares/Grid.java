@@ -4,12 +4,8 @@ public class Grid
 {
     protected final Cell[][] cells;
 
-    protected final Point[][] points;
-
     protected Grid( Point[][] points )
     {
-        this.points = points;
-
         int nVertexRows = points.length;
         int nVertexCols = points[0].length;
 

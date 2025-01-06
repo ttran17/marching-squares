@@ -153,7 +153,7 @@ public class MarchingSquares
      * Resolve ambiguity in case lookupIndex == 5 or lookupIndex == 10 using
      * <a href=" https://people.eecs.berkeley.edu/~jrs/meshpapers/NielsonHamann.pdf">asymptotic decider</a>.
      * <br><br>
-     * Note that computation of bilinear interpolant (bi) at asymptote is incorrect (wrong sign) in this paper.
+     * Note that computation of bilinear interpolant (bi) at intersection of asymptotes is incorrect (wrong sign) in this paper.
      */
     protected Segment[] resolveAmbiguity( int lookupIndex, Point p01, Point p12, Point p23, Point p30, Cell cell )
     {
@@ -182,21 +182,22 @@ public class MarchingSquares
                 };
             }
         }
-
-        // case: lookupIndex == 10
-        if ( bi < isovalue )
+        else // lookupIndex == 10
         {
-            return new Segment[] {
-                    new Segment( p01, p12 ),
-                    new Segment( p23, p30 )
-            };
-        }
-        else
-        {
-            return new Segment[] {
-                    new Segment( p23, p12 ),
-                    new Segment( p01, p30 )
-            };
+            if ( bi < isovalue )
+            {
+                return new Segment[] {
+                        new Segment( p01, p12 ),
+                        new Segment( p23, p30 )
+                };
+            }
+            else
+            {
+                return new Segment[] {
+                        new Segment( p23, p12 ),
+                        new Segment( p01, p30 )
+                };
+            }
         }
     }
 
@@ -263,67 +264,57 @@ public class MarchingSquares
         }
 
         // Handle non-closed contours
+        Deque<Point> stack = new LinkedList<>( );
+        for ( Point point : point2Segment.keySet( ) )
         {
-            Deque<Point> stack = new LinkedList<>( );
-            for ( Point point : point2Segment.keySet( ) )
+            if ( noLoopStartPoints.get( point ) == Boolean.TRUE )
             {
-                if ( noLoopStartPoints.get( point ) == Boolean.TRUE )
-                {
-                    stack.push( point );
-                }
+                stack.push( point );
             }
-            Isoline<Point> contour = new Isoline<>( );
-            if ( !stack.isEmpty( ) )
-            {
-                Point point = stack.pop( );
-                contour.add( point );
-                Segment segment = point2Segment.remove( point );
-                stack.push( segment.getEnd( ) );
-            }
-            while ( !stack.isEmpty( ) )
-            {
-                Point point = stack.pop( );
-                contour.add( point );
-                Segment segment = point2Segment.remove( point );
-                if ( segment != null )
-                {
-                    stack.push( segment.getEnd( ) );
-                }
-                else
-                {
-                    contours.add( contour );
-                    contour = new Isoline<>( );
-                }
-            }
+        }
+        while ( !stack.isEmpty( ) )
+        {
+            Point startingPoint = stack.pop( );
+            computeContour( startingPoint, point2Segment, contours );
         }
 
         // Handle closed contours
+        while ( !point2Segment.isEmpty( ) )
         {
-            Queue<Point> queue = new LinkedList<>( );
-            point2Segment.keySet( ).stream( ).findAny( ).ifPresent( queue::add );
-            Isoline<Point> contour = new Isoline<>( );
-            while ( !queue.isEmpty( ) )
-            {
-                Point point = queue.poll( );
-                contour.add( point );
-                Segment segment = point2Segment.remove( point );
-                if ( segment != null )
-                {
-                    queue.add( segment.getEnd( ) );
-                }
-                else
-                {
-                    contours.add( contour );
-
-                    point2Segment.keySet( ).stream( ).findAny( ).ifPresent( queue::add );
-                    contour = new Isoline<>( );
-                }
-            }
+            Point startingPoint = point2Segment.keySet( ).stream( ).findAny( ).get( );
+            computeContour( startingPoint, point2Segment, contours );
         }
 
         return contours;
     }
 
+    protected void computeContour( Point startingPoint, Map<Point, Segment> point2Segment, IsolineList<Point> contours )
+    {
+        Isoline<Point> contour = new Isoline<>( );
+
+        Queue<Point> queue = new LinkedList<>( );
+        queue.offer( startingPoint );
+
+        // Follow contour from starting point by way of point2Segment map
+        while ( !queue.isEmpty( ) )
+        {
+            Point point = queue.poll( );
+            contour.add( point );
+            Segment segment = point2Segment.remove( point );
+            if ( segment != null )
+            {
+                queue.add( segment.getEnd( ) );
+            }
+            else
+            {
+                contours.add( contour );
+            }
+        }
+    }
+
+    /**
+     * Given (u0,v0) and (u1,v1) finds u in (u,isovalue) via standard linear interpolation.
+     */
     protected static double lerp( double u0, double v0, double u1, double v1, double isovalue )
     {
         return u0 + ( isovalue - v0 ) * ( u1 - u0 ) / ( v1 - v0 );
