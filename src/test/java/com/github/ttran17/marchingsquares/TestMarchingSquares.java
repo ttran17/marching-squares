@@ -74,10 +74,10 @@ public class TestMarchingSquares
         double isovalue = 0.5;
         IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, isovalue );
 
-        IsolineList<Point> isolineList = isolineMap.get( isovalue );
-        Assertions.assertEquals( 5, isolineList.size( ) );
+        IsolineCollection<Point> isolineCollection = isolineMap.get( isovalue );
+        Assertions.assertEquals( 5, isolineCollection.size( ) );
 
-        List<Isoline<Point>> list = new ArrayList<>( isolineList.getIsolines( ) );
+        List<Isoline<Point>> list = new ArrayList<>( isolineCollection.getIsolines( ) );
         list.sort( Comparator.comparingInt( Isoline::size ) );
         Assertions.assertEquals( 3, list.get( 0 ).size( ) );
         Assertions.assertEquals( 7, list.get( 1 ).size( ) );
@@ -114,17 +114,17 @@ public class TestMarchingSquares
         IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, 0.7, 0.3 );
 
         {
-            IsolineList<Point> isolineList = isolineMap.get( 0.7 );
-            Assertions.assertEquals( 2, isolineList.size( ) );
+            IsolineCollection<Point> isolineCollection = isolineMap.get( 0.7 );
+            Assertions.assertEquals( 2, isolineCollection.size( ) );
 
-            Isoline<Point> isoline0 = isolineList.get( 0 );
+            Isoline<Point> isoline0 = isolineCollection.get( 0 );
             Assertions.assertEquals( 2, isoline0.size( ) );
             Assertions.assertEquals( 0.0, isoline0.get( 0 ).getX( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 0 ).getY( ) );
             Assertions.assertEquals( 0.0, isoline0.get( 1 ).getY( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 1 ).getX( ) );
 
-            Isoline<Point> isoline1 = isolineList.get( 1 );
+            Isoline<Point> isoline1 = isolineCollection.get( 1 );
             Assertions.assertEquals( 2, isoline1.size( ) );
             Assertions.assertEquals( 1.0, isoline1.get( 0 ).getX( ) );
             Assertions.assertTrue( 0.0 < isoline1.get( 0 ).getY( ) );
@@ -133,17 +133,17 @@ public class TestMarchingSquares
         }
 
         {
-            IsolineList<Point> isolineList = isolineMap.get( 0.3 );
-            Assertions.assertEquals( 2, isolineList.size( ) );
+            IsolineCollection<Point> isolineCollection = isolineMap.get( 0.3 );
+            Assertions.assertEquals( 2, isolineCollection.size( ) );
 
-            Isoline<Point> isoline0 = isolineList.get( 0 );
+            Isoline<Point> isoline0 = isolineCollection.get( 0 );
             Assertions.assertEquals( 2, isoline0.size( ) );
             Assertions.assertEquals( 0.0, isoline0.get( 0 ).getX( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 0 ).getY( ) );
             Assertions.assertEquals( 1.0, isoline0.get( 1 ).getY( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 1 ).getX( ) );
 
-            Isoline<Point> isoline1 = isolineList.get( 1 );
+            Isoline<Point> isoline1 = isolineCollection.get( 1 );
             Assertions.assertEquals( 2, isoline1.size( ) );
             Assertions.assertEquals( 1.0, isoline1.get( 0 ).getX( ) );
             Assertions.assertTrue( 0.0 < isoline1.get( 0 ).getY( ) );
@@ -180,17 +180,17 @@ public class TestMarchingSquares
         IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, 0.7, 0.3 );
 
         {
-            IsolineList<Point> isolineList = isolineMap.get( 0.7 );
-            Assertions.assertEquals( 2, isolineList.size( ) );
+            IsolineCollection<Point> isolineCollection = isolineMap.get( 0.7 );
+            Assertions.assertEquals( 2, isolineCollection.size( ) );
 
-            Isoline<Point> isoline0 = isolineList.get( 0 );
+            Isoline<Point> isoline0 = isolineCollection.get( 0 );
             Assertions.assertEquals( 2, isoline0.size( ) );
             Assertions.assertEquals( 1.0, isoline0.get( 0 ).getY( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 0 ).getX( ) );
             Assertions.assertEquals( 0.0, isoline0.get( 1 ).getX( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 1 ).getY( ) );
 
-            Isoline<Point> isoline1 = isolineList.get( 1 );
+            Isoline<Point> isoline1 = isolineCollection.get( 1 );
             Assertions.assertEquals( 2, isoline1.size( ) );
             Assertions.assertEquals( 0.0, isoline1.get( 0 ).getY( ) );
             Assertions.assertTrue( 0.0 < isoline1.get( 0 ).getX( ) );
@@ -199,17 +199,17 @@ public class TestMarchingSquares
         }
 
         {
-            IsolineList<Point> isolineList = isolineMap.get( 0.3 );
-            Assertions.assertEquals( 2, isolineList.size( ) );
+            IsolineCollection<Point> isolineCollection = isolineMap.get( 0.3 );
+            Assertions.assertEquals( 2, isolineCollection.size( ) );
 
-            Isoline<Point> isoline0 = isolineList.get( 0 );
+            Isoline<Point> isoline0 = isolineCollection.get( 0 );
             Assertions.assertEquals( 2, isoline0.size( ) );
             Assertions.assertEquals( 0.0, isoline0.get( 0 ).getY( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 0 ).getX( ) );
             Assertions.assertEquals( 0.0, isoline0.get( 1 ).getX( ) );
             Assertions.assertTrue( 0.0 < isoline0.get( 1 ).getY( ) );
 
-            Isoline<Point> isoline1 = isolineList.get( 1 );
+            Isoline<Point> isoline1 = isolineCollection.get( 1 );
             Assertions.assertEquals( 2, isoline1.size( ) );
             Assertions.assertEquals( 1.0, isoline1.get( 0 ).getY( ) );
             Assertions.assertTrue( 0.0 < isoline1.get( 0 ).getX( ) );

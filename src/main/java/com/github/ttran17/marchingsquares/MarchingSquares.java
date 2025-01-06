@@ -34,7 +34,7 @@ public class MarchingSquares
         this.binary = new int[nGridRows][nGridCols];
     }
 
-    protected IsolineList<Point> computeIsoLines( )
+    protected IsolineCollection<Point> computeIsoLines( )
     {
         computeInterpolationPoints( );
         computeSegments( );
@@ -238,9 +238,9 @@ public class MarchingSquares
         }
     }
 
-    protected IsolineList<Point> computeContours( )
+    protected IsolineCollection<Point> computeContours( )
     {
-        IsolineList<Point> contours = new IsolineList<>( );
+        IsolineCollection<Point> contours = new IsolineCollection<>( );
 
         Cell[][] cells = grid.cells;
 
@@ -288,14 +288,13 @@ public class MarchingSquares
         return contours;
     }
 
-    protected void computeContour( Point startingPoint, Map<Point, Segment> point2Segment, IsolineList<Point> contours )
+    protected void computeContour( Point startingPoint, Map<Point, Segment> point2Segment, IsolineCollection<Point> contours )
     {
-        Isoline<Point> contour = new Isoline<>( );
-
         Queue<Point> queue = new LinkedList<>( );
         queue.offer( startingPoint );
 
         // Follow contour from starting point by way of point2Segment map
+        Isoline<Point> contour = new Isoline<>( );
         while ( !queue.isEmpty( ) )
         {
             Point point = queue.poll( );
@@ -329,8 +328,8 @@ public class MarchingSquares
         for ( double isovalue : isovalues )
         {
             MarchingSquares marchingSquares = new MarchingSquares( grid, isovalue );
-            IsolineList<Point> isolineList = marchingSquares.computeIsoLines( );
-            isolineMap.put( isovalue, isolineList );
+            IsolineCollection<Point> isolineCollection = marchingSquares.computeIsoLines( );
+            isolineMap.put( isovalue, isolineCollection );
         }
 
         return isolineMap;

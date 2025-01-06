@@ -1,31 +1,33 @@
 package com.github.ttran17.marchingsquares;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class IsolineList<T>
+/**
+ * A collection of isolines. This implementation uses a list as its underlying collection list.
+ */
+public class IsolineCollection<T>
 {
     protected final List<Isoline<T>> isolines;
 
-    public IsolineList( )
+    public IsolineCollection( )
     {
         this.isolines = new ArrayList<>( );
     }
 
-    protected boolean add( Isoline<T> isoline )
+    public boolean add( Isoline<T> isoline )
     {
         return this.isolines.add( isoline );
     }
 
-    protected Isoline<T> get( int index )
+    public Isoline<T> get( int index )
     {
         return this.isolines.get( index );
     }
 
     public List<Isoline<T>> getIsolines( )
     {
-        return Collections.unmodifiableList( this.isolines );
+        return this.isolines;
     }
 
     public int size( )

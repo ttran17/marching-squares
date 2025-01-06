@@ -1,7 +1,6 @@
 package com.github.ttran17.marchingsquares;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Isoline<T>
@@ -13,7 +12,7 @@ public class Isoline<T>
         this.points = new ArrayList<>( );
     }
 
-    protected boolean add( T point )
+    public boolean add( T point )
     {
         return this.points.add( point );
     }
@@ -25,7 +24,7 @@ public class Isoline<T>
 
     public List<T> getPoints( )
     {
-        return Collections.unmodifiableList( this.points );
+        return this.points;
     }
 
     public int size( )

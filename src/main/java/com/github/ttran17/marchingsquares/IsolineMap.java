@@ -2,23 +2,35 @@ package com.github.ttran17.marchingsquares;
 
 import it.unimi.dsi.fastutil.doubles.Double2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.doubles.Double2ObjectMap;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 
+/**
+ * A hash map of collections of isolines keyed by isovalue.
+ */
 public class IsolineMap<T>
 {
-    protected final Double2ObjectMap<IsolineList<T>> isolineMap;
+    protected final Double2ObjectMap<IsolineCollection<T>> isolineMap;
 
     public IsolineMap( )
     {
         this.isolineMap = new Double2ObjectLinkedOpenHashMap<>( );
     }
 
-    protected IsolineList<T> put( double isovalue, IsolineList<T> isolineList )
+    public IsolineCollection<T> put( double isovalue, IsolineCollection<T> isolineCollection )
     {
-        return this.isolineMap.put( isovalue, isolineList );
+        return this.isolineMap.put( isovalue, isolineCollection );
     }
 
-    public IsolineList<T> get( double isovalue )
+    public IsolineCollection<T> get( double isovalue )
     {
-        return this.isolineMap.getOrDefault( isovalue, new IsolineList<>( ) );
+        return this.isolineMap.getOrDefault( isovalue, new IsolineCollection<>( ) );
+    }
+
+    /**
+     * @return A type-specific view of the underlying entry set. See {@link Double2ObjectMap#double2ObjectEntrySet()}.
+     */
+    public ObjectSet<Double2ObjectMap.Entry<IsolineCollection<T>>> entrySet( )
+    {
+        return isolineMap.double2ObjectEntrySet( );
     }
 }
