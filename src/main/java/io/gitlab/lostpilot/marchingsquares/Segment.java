@@ -1,4 +1,4 @@
-package com.github.ttran17.marchingsquares;
+package io.gitlab.lostpilot.marchingsquares;
 
 public class Segment
 {

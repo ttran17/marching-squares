@@ -1,4 +1,4 @@
-package com.github.ttran17.marchingsquares;
+package io.gitlab.lostpilot.marchingsquares;
 
 import it.unimi.dsi.fastutil.doubles.Double2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.doubles.Double2ObjectMap;

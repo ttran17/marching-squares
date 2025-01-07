@@ -1,4 +1,4 @@
-package com.github.ttran17.marchingsquares;
+package io.gitlab.lostpilot.marchingsquares;
 
 import java.util.ArrayList;
 import java.util.List;
