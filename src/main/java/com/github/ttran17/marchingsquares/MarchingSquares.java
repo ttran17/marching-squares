@@ -1,11 +1,18 @@
 package com.github.ttran17.marchingsquares;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Verbatim from <a href="https://en.wikipedia.org/wiki/Marching_squares">Wikipedia: marching squares</a> is an algorithm that generates contours for a two-dimensional scalar field
+ * (rectangular array of individual numerical values).
+ */
 public class MarchingSquares
 {
     protected final Grid grid;
@@ -319,6 +326,14 @@ public class MarchingSquares
         return u0 + ( isovalue - v0 ) * ( u1 - u0 ) / ( v1 - v0 );
     }
 
+    /**
+     * Generates <a href="https://en.wikipedia.org/wiki/Marching_squares">isolines</a>
+     * (lines following a single data level, or {@code isovalue}) for a two-dimensional scalar field {@code Point[][]}.
+     *
+     * @param points A scalar field of points (x,y,z). Assumes that z = f(x,y) where f:R^2 --> R is continuous.
+     * @param isovalues Array of isovalues.
+     * @return A hash map of collections of isolines keyed by isovalue.
+     */
     public static IsolineMap<Point> computeIsoLines( Point[][] points, double[] isovalues )
     {
         IsolineMap<Point> isolineMap = new IsolineMap<>( );
@@ -330,6 +345,39 @@ public class MarchingSquares
             MarchingSquares marchingSquares = new MarchingSquares( grid, isovalue );
             IsolineCollection<Point> isolineCollection = marchingSquares.computeIsoLines( );
             isolineMap.put( isovalue, isolineCollection );
+        }
+
+        return isolineMap;
+    }
+
+    /**
+     * Same as {@link #computeIsoLines()} except that this method parallelizes the computation over the array of isovalues.
+     * Note that the computation for any single isovalue is <em>not</em> parallelized! Therefore, this method is only useful
+     * for large arrays of isovalues.
+     */
+    public static IsolineMap<Point> parallelComputeIsoLines( Point[][] points, double[] isovalues )
+    {
+        Map<Double, IsolineCollection<Point>> concurrentIsolineMap = new ConcurrentHashMap<>( );
+
+        Grid grid = new Grid( points );
+
+        List<Double> isovalueList = new ArrayList<>( );
+        for ( double isovalue : isovalues )
+        {
+            isovalueList.add( isovalue );
+        }
+
+        isovalueList.parallelStream( ).forEach( ( isovalue ) -> {
+            MarchingSquares marchingSquares = new MarchingSquares( grid, isovalue );
+            IsolineCollection<Point> isolineCollection = marchingSquares.computeIsoLines( );
+            concurrentIsolineMap.put( isovalue, isolineCollection );
+        } );
+
+        // Guarantees insertion order to be the same as in non-parallel case
+        IsolineMap<Point> isolineMap = new IsolineMap<>( );
+        for ( double isovalue : isovalueList )
+        {
+            isolineMap.put( isovalue, concurrentIsolineMap.get( isovalue ) );
         }
 
         return isolineMap;

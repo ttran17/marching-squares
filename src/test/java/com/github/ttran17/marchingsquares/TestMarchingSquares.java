@@ -217,4 +217,42 @@ public class TestMarchingSquares
             Assertions.assertTrue( 0.0 < isoline1.get( 1 ).getX( ) );
         }
     }
+
+    @Test
+    public void testParallelExample( )
+    {
+        double[][] testData = new double[][] {
+                { 1, 0, 0, 0, 0, 1 },
+                { 0, 1, 0, 0, 1, 0 },
+                { 0, 0, 1, 1, 0, 0 },
+                { 0, 0, 1, 1, 1, 0 },
+                { 0, 1, 0, 1, 0, 1 },
+                { 1, 0, 0, 0, 0, 1 },
+                { 0, 0, 1, 0, 1, 1 },
+        };
+
+        Point[][] points = new Point[testData.length][testData[0].length];
+        for ( int i = 0; i < testData.length; i++ )
+        {
+            for ( int j = 0; j < testData[0].length; j++ )
+            {
+                // remember to flip i and j for x and y
+                points[i][j] = new Point( j, i, testData[i][j] );
+            }
+        }
+
+        double isovalue = 0.5;
+        IsolineMap<Point> isolineMap = MarchingSquares.parallelComputeIsoLines( points, new double[] { isovalue } );
+
+        IsolineCollection<Point> isolineCollection = isolineMap.get( isovalue );
+        Assertions.assertEquals( 5, isolineCollection.size( ) );
+
+        List<Isoline<Point>> list = new ArrayList<>( isolineCollection.getIsolines( ) );
+        list.sort( Comparator.comparingInt( Isoline::size ) );
+        Assertions.assertEquals( 3, list.get( 0 ).size( ) );
+        Assertions.assertEquals( 7, list.get( 1 ).size( ) );
+        Assertions.assertEquals( 8, list.get( 2 ).size( ) );
+        Assertions.assertEquals( 8, list.get( 3 ).size( ) );
+        Assertions.assertEquals( 13, list.get( 4 ).size( ) );
+    }
 }

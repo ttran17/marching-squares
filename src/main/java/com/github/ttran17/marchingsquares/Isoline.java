@@ -1,34 +1,13 @@
 package com.github.ttran17.marchingsquares;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Isoline<T>
+/**
+ * A collection of points that forms an isoline.
+ * <br><br>
+ * The alternative to this class is to pass around a list of Points: List&lt;Point&gt;.
+ */
+public class Isoline<T> extends ArrayList<T>
 {
-    protected final List<T> points;
 
-    public Isoline( )
-    {
-        this.points = new ArrayList<>( );
-    }
-
-    public boolean add( T point )
-    {
-        return this.points.add( point );
-    }
-
-    public T get( int index )
-    {
-        return this.points.get( index );
-    }
-
-    public List<T> getPoints( )
-    {
-        return this.points;
-    }
-
-    public int size( )
-    {
-        return this.points.size( );
-    }
 }

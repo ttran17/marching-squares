@@ -1,5 +1,8 @@
 package com.github.ttran17.marchingsquares;
 
+/**
+ * Auxiliary class to lighten the mental book-keeping.
+ */
 public class Cell
 {
     // Counter-clockwise from lower left

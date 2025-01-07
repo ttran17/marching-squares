@@ -6,6 +6,9 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 
 /**
  * A hash map of collections of isolines keyed by isovalue.
+ * <br><br>
+ * The alternative to this class is to pass around a hash map of the form:
+ * Map&lt;Double,List&lt;List&lt;Point&gt;&gt;&gt;.
  */
 public class IsolineMap<T>
 {

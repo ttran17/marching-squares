@@ -1,5 +1,8 @@
 package com.github.ttran17.marchingsquares;
 
+/**
+ * Auxiliary class to help with the book-keeping.
+ */
 public class Grid
 {
     protected final Cell[][] cells;
@@ -17,6 +20,10 @@ public class Grid
         {
             for ( int gridCol = 0; gridCol < nGridCols; gridCol++ )
             {
+                // Instead of saving references to these vertices in Cell[][],
+                // we could choose to access the vertices via Point[][] array
+                // and indexing as shown here. If saving space is paramount
+                // to saving time, Cell[][] can be removed with very little work.
                 Point v0 = points[gridRow][gridCol];
                 Point v1 = points[gridRow][gridCol + 1];
                 Point v2 = points[gridRow + 1][gridCol + 1];

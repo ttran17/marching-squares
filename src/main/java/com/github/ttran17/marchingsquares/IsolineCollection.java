@@ -5,6 +5,9 @@ import java.util.List;
 
 /**
  * A collection of isolines. This implementation uses a list as its underlying collection list.
+ * <br><br>
+ * The alternative to this class is to pass around a list of lists of Points:
+ * List&lt;List&lt;Point&gt;&gt;.
  */
 public class IsolineCollection<T>
 {
@@ -28,6 +31,11 @@ public class IsolineCollection<T>
     public List<Isoline<T>> getIsolines( )
     {
         return this.isolines;
+    }
+
+    public boolean isEmpty( )
+    {
+        return this.isolines.isEmpty( );
     }
 
     public int size( )
