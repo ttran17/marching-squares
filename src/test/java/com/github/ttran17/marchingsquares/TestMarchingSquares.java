@@ -40,7 +40,7 @@ public class TestMarchingSquares
         }
 
         double isovalue = 1.1;
-        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, isovalue );
+        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, new double[] { isovalue } );
         Assertions.assertEquals( 1, isolineMap.get( isovalue ).size( ) );
 
         Isoline<Point> isoline = isolineMap.get( isovalue ).getIsolines( ).get( 0 );
@@ -72,7 +72,7 @@ public class TestMarchingSquares
         }
 
         double isovalue = 0.5;
-        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, isovalue );
+        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, new double[] { isovalue } );
 
         IsolineCollection<Point> isolineCollection = isolineMap.get( isovalue );
         Assertions.assertEquals( 5, isolineCollection.size( ) );
@@ -111,7 +111,7 @@ public class TestMarchingSquares
             }
         }
 
-        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, 0.7, 0.3 );
+        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, new double[] { 0.7, 0.3 } );
 
         {
             IsolineCollection<Point> isolineCollection = isolineMap.get( 0.7 );
@@ -177,7 +177,7 @@ public class TestMarchingSquares
             }
         }
 
-        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, 0.7, 0.3 );
+        IsolineMap<Point> isolineMap = MarchingSquares.computeIsoLines( points, new double[] { 0.7, 0.3 } );
 
         {
             IsolineCollection<Point> isolineCollection = isolineMap.get( 0.7 );

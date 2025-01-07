@@ -33,4 +33,14 @@ public class IsolineMap<T>
     {
         return isolineMap.double2ObjectEntrySet( );
     }
+
+    public boolean isEmpty( )
+    {
+        return this.isolineMap.isEmpty( );
+    }
+
+    public int size( )
+    {
+        return this.isolineMap.size( );
+    }
 }

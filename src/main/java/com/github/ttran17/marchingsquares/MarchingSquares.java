@@ -319,7 +319,7 @@ public class MarchingSquares
         return u0 + ( isovalue - v0 ) * ( u1 - u0 ) / ( v1 - v0 );
     }
 
-    public static IsolineMap<Point> computeIsoLines( Point[][] points, double... isovalues )
+    public static IsolineMap<Point> computeIsoLines( Point[][] points, double[] isovalues )
     {
         IsolineMap<Point> isolineMap = new IsolineMap<>( );
 
